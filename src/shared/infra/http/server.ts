@@ -3,14 +3,14 @@ import express, { Response, NextFunction, Request } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 
-import routes from './routes';
-import uplodConfig from './config/upload';
-import AppError from './Errors/AppError';
+import routes from '@shared/infra/http/routes';
+import uplodConfig from '@config/upload';
+import AppError from '@shared/Errors/AppError';
 
-import './database';
+import '@shared/infra/typeorm';
+import '@shared/container';
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 app.use('/files', express.static(uplodConfig.directory));
