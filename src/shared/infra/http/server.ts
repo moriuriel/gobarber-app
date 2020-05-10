@@ -9,6 +9,7 @@ import AppError from '@shared/Errors/AppError';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
+import '@modules/users/providers';
 
 const app = express();
 app.use(cors());
