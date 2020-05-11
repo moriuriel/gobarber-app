@@ -9,12 +9,10 @@ import AppError from '@shared/Errors/AppError';
 
 import '@shared/infra/typeorm';
 import '@shared/container';
-import '@modules/users/providers';
-
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use('/files', express.static(uplodConfig.directory));
+app.use('/files', express.static(uplodConfig.uploadFolder));
 app.use(routes);
 
 app.use(
