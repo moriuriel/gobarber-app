@@ -2,13 +2,17 @@ import AppError from '@shared/Errors/AppError';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import CreateAppointmentsService from './CreateAppointmentsService';
 
+let fakeAppointmentsRepositroy: FakeAppointmentsRepository;
+let createAppointment: CreateAppointmentsService;
+
 describe('CrateAppointment', () => {
-  it('should be able to create a new appointment', async () => {
-    const fakeAppointmentsRepositroy = new FakeAppointmentsRepository();
-    const createAppointment = new CreateAppointmentsService(
+  beforeEach(() => {
+    fakeAppointmentsRepositroy = new FakeAppointmentsRepository();
+    createAppointment = new CreateAppointmentsService(
       fakeAppointmentsRepositroy,
     );
-
+  });
+  it('should be able to create a new appointment', async () => {
     const appointment = await createAppointment.execute({
       date: new Date(),
       provider_id: '123',

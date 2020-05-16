@@ -3,15 +3,20 @@ import UpdateUserAvatarService from './UpdateUserAvatarService';
 import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 import AppError from '@shared/Errors/AppError';
 
+let fakeUserRepository: FakeUserRepository;
+let fakeStorageProvider: FakeStorageProvider;
+let updateUserAvatar: UpdateUserAvatarService;
+
 describe('UpdateUserAvatar', () => {
-  it('should be albe to update avatar for user', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(
+  beforeEach(() => {
+    fakeUserRepository = new FakeUserRepository();
+    fakeStorageProvider = new FakeStorageProvider();
+    updateUserAvatar = new UpdateUserAvatarService(
       fakeUserRepository,
       fakeStorageProvider,
     );
-
+  });
+  it('should be albe to update avatar for user', async () => {
     const user = await fakeUserRepository.create({
       name: 'Jhon Doe',
       email: 'john@email.com.br',
@@ -27,13 +32,6 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should not be albe to not update a avatar from not existing user', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUserRepository,
-      fakeStorageProvider,
-    );
-
     expect(
       updateUserAvatar.execute({
         user_id: 'non-existing-user',
@@ -43,15 +41,7 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should delete old avatar when updating new one', async () => {
-    const fakeUserRepository = new FakeUserRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
     const deleFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
-
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUserRepository,
-      fakeStorageProvider,
-    );
 
     const user = await fakeUserRepository.create({
       name: 'Jhon Doe',
