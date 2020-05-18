@@ -4,7 +4,7 @@ import { container } from 'tsyringe';
 import UpdateProfileService from '@modules/users/services/UpdateProfileService';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
 
-class UsersController {
+class ProfileController {
   public async show(request: Request, response: Response): Promise<Response> {
     const userId = request.user.id;
     const showProfile = container.resolve(ShowProfileService);
@@ -32,4 +32,4 @@ class UsersController {
     return response.json(user);
   }
 }
-export default UsersController;
+export default ProfileController;
