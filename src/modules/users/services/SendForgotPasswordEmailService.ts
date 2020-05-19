@@ -2,12 +2,12 @@ import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
 import path from 'path';
 
-import IUsersRepository from '../repositories/IUsersRepository';
-import IUsersTokensRepository from '../repositories/IUserTokensRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import AppError from '@shared/Errors/AppError';
+import IUsersRepository from '../repositories/IUsersRepository';
+import IUsersTokensRepository from '../repositories/IUserTokensRepository';
 
-interface RequestUser {
+interface IRequestUser {
   email: string;
 }
 
@@ -24,7 +24,7 @@ class SendForgotPasswordEmailService {
     private userTokensRepository: IUsersTokensRepository,
   ) {}
 
-  public async execute({ email }: RequestUser): Promise<void> {
+  public async execute({ email }: IRequestUser): Promise<void> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
@@ -48,7 +48,7 @@ class SendForgotPasswordEmailService {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `http://localhost:3000/reset?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/reset?token=${token}`,
         },
       },
     });
