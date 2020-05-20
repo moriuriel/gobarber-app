@@ -1,13 +1,11 @@
+import AppError from '@shared/Errors/AppError';
 import FakeHashProvider from '../providers/hashProvider/fakes/FakeHashProvider';
 import FakeUserRepository from '../repositories/fakes/FakeUsersRepository';
 import AuthenticateUserService from './AuthenticateUserService';
-import CreateUsersService from './CreateUsersService';
-import AppError from '@shared/Errors/AppError';
 
 let fakeUserRepository: FakeUserRepository;
 let fakeHashProvider: FakeHashProvider;
 let authenticateUser: AuthenticateUserService;
-let createUsers: CreateUsersService;
 
 describe('AuthenticateUser', () => {
   beforeEach(() => {
@@ -17,10 +15,9 @@ describe('AuthenticateUser', () => {
       fakeUserRepository,
       fakeHashProvider,
     );
-    createUsers = new CreateUsersService(fakeUserRepository, fakeHashProvider);
   });
   it('should be albe to authenticate', async () => {
-    const user = await createUsers.execute({
+    await fakeUserRepository.create({
       name: 'Jhon Doe',
       email: 'john@email.com.br',
       password: '123',
@@ -44,7 +41,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be albe to authenticate with worng password', async () => {
-    const user = await createUsers.execute({
+    await fakeUserRepository.create({
       name: 'Jhon Doe',
       email: 'john@email.com.br',
       password: '123',

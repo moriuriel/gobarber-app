@@ -1,4 +1,3 @@
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { injectable, inject } from 'tsyringe';
 import authConfig from '@config/auth';
@@ -7,12 +6,12 @@ import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/hashProvider/models/IHashProvider';
 
-interface RequestAuth {
+interface IRequestAuth {
   email: string;
   password: string;
 }
 
-interface ResponseAuth {
+interface IResponseAuth {
   user: User;
   token: string;
 }
@@ -28,7 +27,7 @@ class AuthenticateUserService {
   public async execute({
     email,
     password,
-  }: RequestAuth): Promise<ResponseAuth> {
+  }: IRequestAuth): Promise<IResponseAuth> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
@@ -47,7 +46,7 @@ class AuthenticateUserService {
 
     const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: expiresIn,
+      expiresIn,
     });
 
     return { user, token };

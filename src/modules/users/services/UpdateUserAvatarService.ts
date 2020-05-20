@@ -1,11 +1,11 @@
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/Errors/AppError';
+import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
-import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 
-interface AvatarRequest {
+interface IAvatarRequest {
   user_id: string;
   avatarFileName: string;
 }
@@ -20,7 +20,7 @@ class UpdateUserAvatarService {
   public async execute({
     user_id,
     avatarFileName,
-  }: AvatarRequest): Promise<User> {
+  }: IAvatarRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {

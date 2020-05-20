@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
 import { isAfter, addHours } from 'date-fns';
+import AppError from '@shared/Errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IUsersTokensRepository from '../repositories/IUserTokensRepository';
-import AppError from '@shared/Errors/AppError';
 import IHasProvider from '../providers/hashProvider/models/IHashProvider';
 
-interface RequestUser {
+interface IRequestUser {
   token: string;
   password: string;
 }
@@ -24,7 +24,7 @@ class ResetPasswordService {
     private hasProvider: IHasProvider,
   ) {}
 
-  public async execute({ token, password }: RequestUser): Promise<void> {
+  public async execute({ token, password }: IRequestUser): Promise<void> {
     const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
