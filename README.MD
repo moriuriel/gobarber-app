@@ -1,71 +1,74 @@
-# Recuperção de senha []
+<h1>
+  🏅 Backend GoBarber
+</h1>
+<h4 align="justify">
+  O Gobarber é um aplicativo desenvolvido durante o bootcamp 11 da rockeseat, nele o usuário pode agendar um horário com seu barbeiro favorito, e o barbeiro consegue visualizar todos os agendamentos do dia.
+</h4>
 
-**RF**
+## 🚀 Tecnologias
 
-- O usuário deve poder recuperar sua senha infromando o seu e-mail;
-- O usuário deve receber um e-mail com instrução de recuperção de senha;
-- O usuário deve poder resetar sua senha;
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [Typscript](https://www.typescriptlang.org/)
+- [Docker](https://www.docker.com/docker-community)
+- [Typeorm](https://typeorm.io/#/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [node-postgres](https://www.npmjs.com/package/pg)
+- [Redis](https://redis.io/)
+- [MongoDB](https://www.mongodb.com/)
+- [JWT](https://jwt.io/)
+- [Multer](https://github.com/expressjs/multer)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Yup](https://www.npmjs.com/package/yup)
+- [Nodemailer](https://nodemailer.com/about/)
+- [Ethereal](https://ethereal.email/)
+- [date-fns](https://date-fns.org/)
+- [DotEnv](https://www.npmjs.com/package/dotenv)
 
-**RNF**
+## Como usar
 
-- Utilizar Mailtrap para testar envio em ambiente de dev;
-- Utilizar Amazon SES para envios em produção;
-- O envio de e-mails deve acontecer em segundo plano (background job);
+1.  Clone o repositório:
 
-**RN**
+    `git clone https://github.com/moriuriel/gobarber-server.git`
 
-- O link enviado por email para resetar senha, deve expirar em 2h;
-- O usuário precisa confirmar a nova senha ao resetar;
+2.  Na pasta do projeto use o camando:
 
-# Autalização do perfil []
+    `yarn install`
 
-**RF**
+3.  Configurando typeorm, crie um arquivo **ormconfig.json**:
 
-- O usuário deve poder atualizar nome, email e senha;
+    **Configuração para o prostgres:**
 
-**RNF**
+    ```json
+    {
+        "name": "default",
+        "type": "postgres",
+        "username": "postgres",
+        "password": "postgres",
+        "host": "localhost",
+        "port": 5432,
+        "database": "gobarber",
+        "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
+        "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+        "cli": {
+          "migrationsDir": "./src/shared/infra/typeorm/migrations"
+      },
+    ```
 
-**RN**
+    **Configuração para o mongodb:**
 
-- O usuário não pode alterar seu email para um email já utlizado;
-- Para atualizar sua senha, o usuário deve confirmar sua senha antiga;
-- Para atualizar sua senha, o usuário deve confirmar sua nova senha;
+    ```json
+    {
+      "name": "mongo",
+      "type": "mongodb",
+      "host": "localhost",
+      "port": 27017,
+      "database": "gobarber",
+      "useUnifiedTopology": true,
+      "entities": ["./src/modules/**/infra/typeorm/schemas/*.ts"]
+    }
+    ```
 
-# Painel do prestador []
+4.  Não esqueça de copiar o arquivo **.env.example** para **.env**
 
-**RF**
-
-- O usuário deve poder listar seus agendamentos de uma data expecífica;
-- O prestador deve receber uma notifição sempre que houver um novo agendamento;
-- O prestador deve visualizar as notificações não lidas;
-
-**RNF**
-
-- Os agendamentos do prestador no dia deve ser armazenados em cache;
-- As notificações do prestador devem ser armazenadas no MongoDB;
-- As notificações do prestador devem ser enviados em tempo-real utlizando Socket.io;
-
-**RN**
-
-- A notificação deve ter um status de lida e não lida para que o prestador possa controlar;
-
-# Agendamento de serviços []
-
-**RF**
-
-- O usuário deve poder listar todos prestadores cadastrados;
-- O usuário deve poder listar os dias de um mês com pelo menos um horário disponível de um prestador;
-- O usuário deve poder listar os horários disponíveis em um dia específico de um prestador;
-- O usuário deve poder realizar um novo agendamento com um prestador;
-
-**RNF**
-
-- A listagem de prestadores deve ser armazenda em cache;
-
-**RN**
-
-- Cada agendamento deve durar 1h;
-- Os agendamentos devem estar disponíveis entre 8h às 18h (Primeiro às 8h, último 17h);
-- O usuário não pode agendar em um horário já ocupado;
-- O usuário não pode agendar em uma horário já passou;
-- O usuário não pode agendar um horário com ele mesmo;
+5) Por fim utlize o camando `yarn typeorm migrations:run` para execultar as migrations e `yarn dev:server` para iniciar o servidor de desenvolvimento
