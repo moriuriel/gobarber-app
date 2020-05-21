@@ -71,4 +71,4 @@
 
 4.  Não esqueça de copiar o arquivo **.env.example** para **.env**
 
-5) Por fim utlize o camando `yarn typeorm migrations:run` para execultar as migrations e `yarn dev:server` para iniciar o servidor de desenvolvimento
+5) Por fim utilize o camando `yarn typeorm migrations:run` para execultar as migrations e `yarn dev:server` para iniciar o servidor de desenvolvimento
