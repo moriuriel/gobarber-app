@@ -1,5 +1,7 @@
 <h1>
-  🏅 Backend GoBarber
+
+🏅 Backend GoBarber
+
 </h1>
 <h4 align="justify">
   O Gobarber é um aplicativo desenvolvido durante o bootcamp 11 da rockeseat, nele o usuário pode agendar um horário com seu barbeiro favorito, e o barbeiro consegue visualizar todos os agendamentos do dia.
@@ -10,6 +12,7 @@
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
 - [Typscript](https://www.typescriptlang.org/)
+- [Jest](https://jestjs.io/)
 - [Docker](https://www.docker.com/docker-community)
 - [Typeorm](https://typeorm.io/#/)
 - [PostgreSQL](https://www.postgresql.org/)

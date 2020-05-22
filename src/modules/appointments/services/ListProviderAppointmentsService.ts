@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import { injectable, inject } from 'tsyringe';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import { classToClass } from 'class-transformer';
 import IAppointmentsRespository from '../repositories/IAppointmentsRepository';
 import Appointment from '../infra/typeorm/entities/Appointment';
 
@@ -33,7 +34,6 @@ class ListProviderAppointmentsService {
     let appointments = await this.cacheProvider.recover<Appointment[]>(
       chaceKey,
     );
-    console.log(appointments);
     if (!appointments) {
       appointments = await this.appointmentsRespository.findAllInDayFromProvider(
         {
@@ -44,7 +44,7 @@ class ListProviderAppointmentsService {
         },
       );
 
-      await this.cacheProvider.save(chaceKey, appointments);
+      await this.cacheProvider.save(chaceKey, classToClass(appointments));
     }
     return appointments;
   }

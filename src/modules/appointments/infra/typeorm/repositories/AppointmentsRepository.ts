@@ -1,10 +1,10 @@
 import { getRepository, Repository, Raw } from 'typeorm';
 
-import Appointment from '../entities/Appointment';
 import ICreateAppointmentDto from '@modules/appointments/dtos/ICreateAppointmentDto';
 import IAppointmentsRespository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IFindAllInMonthFromProvider from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
 import IFindAllInDayFromProvider from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
+import Appointment from '../entities/Appointment';
 
 class AppointmentsRepository implements IAppointmentsRespository {
   private ormRepository: Repository<Appointment>;
@@ -13,9 +13,12 @@ class AppointmentsRepository implements IAppointmentsRespository {
     this.ormRepository = getRepository(Appointment);
   }
 
-  public async findByDate(date: Date): Promise<Appointment | undefined> {
+  public async findByDate(
+    date: Date,
+    provider_id: string,
+  ): Promise<Appointment | undefined> {
     const findAppointments = await this.ormRepository.findOne({
-      where: { date },
+      where: { date, provider_id },
     });
 
     return findAppointments;
@@ -28,7 +31,7 @@ class AppointmentsRepository implements IAppointmentsRespository {
   }: IFindAllInMonthFromProvider): Promise<Appointment[]> {
     const parseMonth = String(month).padStart(2, '0');
 
-    const appointments = this.ormRepository.find({
+    const appointments = await this.ormRepository.find({
       where: {
         provider_id,
         date: Raw(
@@ -49,7 +52,7 @@ class AppointmentsRepository implements IAppointmentsRespository {
     const parseMonth = String(month).padStart(2, '0');
     const parseDay = String(day).padStart(2, '0');
 
-    const appointments = this.ormRepository.find({
+    const appointments = await this.ormRepository.find({
       where: {
         provider_id,
         date: Raw(
@@ -57,7 +60,9 @@ class AppointmentsRepository implements IAppointmentsRespository {
             `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parseDay}-${parseMonth}-${year}'`,
         ),
       },
+      relations: ['user'],
     });
+
     return appointments;
   }
 
