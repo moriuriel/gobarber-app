@@ -3,11 +3,11 @@ import { Router } from 'express';
 import multer from 'multer';
 import uploadConfig from '@config/upload';
 
+import { celebrate, Segments, Joi } from 'celebrate';
 import ensureAuthenticated from '../middleware/ensureAuthenticated';
 
 import UsersController from '../controllers/UsersController';
 import UserAvatarController from '../controllers/UserAvatarController';
-import { celebrate, Segments, Joi } from 'celebrate';
 
 const userAvatarController = new UserAvatarController();
 const usersController = new UsersController();

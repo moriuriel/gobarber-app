@@ -1,9 +1,10 @@
 import { Router } from 'express';
 
+import { celebrate, Segments, Joi } from 'celebrate';
 import ensureAuthenticated from '../middleware/ensureAuthenticated';
 
 import ProfileController from '../controllers/ProfileController';
-import { celebrate, Segments, Joi } from 'celebrate';
+
 const profileController = new ProfileController();
 
 const prfileRouter = Router();
